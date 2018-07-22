@@ -31,7 +31,7 @@ describe MovieScheduler do
 
         it "determines the optimal movie schedule" do
             scheduler.parse_movies(str)
-            expect(scheduler.schedule(Time.new(2018,7,23,0,0,0,"-05:00"))).to eq (
+            expect(scheduler.print_schedule(Time.new(2018,7,23,0,0,0,"-05:00"))).to eq (
                 <<~SCHEDULE
                 Monday 7/23/2018
 

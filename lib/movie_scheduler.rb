@@ -1,7 +1,4 @@
-require_relative './movie.rb'
-require_relative './theater.rb'
 require 'csv'
-require 'byebug'
 
 class MovieScheduler
     def initialize()
@@ -23,23 +20,29 @@ class MovieScheduler
         end
     end
 
-    def schedule(date)
+    def print_schedule(date)
         str = date.strftime("%A %-m/%e/%Y\n\n")
 
-        @movies.each do |movie|
-            str += "#{movie.title} - Rated #{movie.mpaa_rating}, #{movie.print_runtime}\n"
-            arr = []
-            schedule = calculate_movie_schedule(movie, date)
-            schedule.each do |movie_time|
-                arr << "    #{movie_time[:start]} - #{movie_time[:end]}\n"
+        schedule(date).each do |movie, movie_times|
+            str += movie_info(movie)
+            str += "\n"
+            movie_times.each do |movie_time|
+                str += "    #{movie_time[:start]} - #{movie_time[:end]}\n"
             end
-            str += arr.reverse.join("") + "\n"
+            str += "\n"
         end
         str
     end
 
     private
-    def calculate_movie_schedule(movie, date)
+    def schedule(date)
+        @movies.reduce({}) do |schedule, movie|
+            schedule[movie] = movie_times(movie, date)
+            schedule
+        end
+    end
+    
+    def movie_times(movie, date)
         time = @theater.closed_time(date.wday)
         schedule = []
     
@@ -50,7 +53,11 @@ class MovieScheduler
             time = start_time.subtract_minutes(@theater.turnover_time)
         end
     
-        schedule
+        schedule.sort_by {|movie_time| movie_time[:start]}
+    end
+
+    def movie_info(movie)
+        "#{movie.title} - Rated #{movie.mpaa_rating}, #{movie.print_runtime}"
     end
 
     def first_possible_end_time(movie, date)
