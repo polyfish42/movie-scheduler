@@ -3,7 +3,7 @@
 A program to help movie theaters optimally schedule movies.
 
 ## Todo
-- [ ] Add command line interface
+- [X] Add command line interface
 - [X] Parse movie input file
 - [X] Optimally schedule movies
-- [ ] Print movie schedule for desired date
+- [X] Print movie schedule for desired date

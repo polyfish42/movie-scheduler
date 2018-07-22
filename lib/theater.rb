@@ -1,4 +1,4 @@
-require 'schedule_time'
+require_relative './schedule_time.rb'
 
 class Theater
     SUNDAY = 0
@@ -19,7 +19,7 @@ class Theater
     def initialize(schedule = DEFAULT_SCHEDULE)
         @schedule = schedule
         @turnover_time = 35
-        @setup_time = 30
+        @setup_time = 60
     end
 
     def open_time(wday)

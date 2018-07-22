@@ -1,3 +1,6 @@
+require_relative './theater.rb'
+require_relative './movie.rb'
+require_relative './schedule_time.rb'
 require 'csv'
 
 class MovieScheduler
@@ -31,17 +34,32 @@ class MovieScheduler
             end
             str += "\n"
         end
+        puts str
         str
     end
 
     private
-    def schedule(date)
-        @movies.reduce({}) do |schedule, movie|
-            schedule[movie] = movie_times(movie, date)
-            schedule
-        end
+    def remove_spaces(str)
+        str.gsub(/, /, ",")
     end
-    
+
+    def run_time_to_min(run_time)
+        (hours, minutes) = run_time.split(":").map(&:to_i)
+
+        hours * 60 + minutes
+    end
+
+    def movie_info(movie)
+        "#{movie.title} - Rated #{movie.mpaa_rating}, #{movie.print_runtime}"
+    end
+
+    def first_possible_end_time(movie, date)
+        wday = date.wday
+        open_time = @theater.open_time(date.wday)
+        open_time.add_minutes(@theater.setup_time)
+                 .add_minutes(movie.run_time)
+    end
+
     def movie_times(movie, date)
         time = @theater.closed_time(date.wday)
         schedule = []
@@ -56,24 +74,18 @@ class MovieScheduler
         schedule.sort_by {|movie_time| movie_time[:start]}
     end
 
-    def movie_info(movie)
-        "#{movie.title} - Rated #{movie.mpaa_rating}, #{movie.print_runtime}"
+    def schedule(date)
+        @movies.reduce({}) do |schedule, movie|
+            schedule[movie] = movie_times(movie, date)
+            schedule
+        end
     end
+end
 
-    def first_possible_end_time(movie, date)
-        wday = date.wday
-        open_time = @theater.open_time(date.wday)
-        open_time.add_minutes(@theater.setup_time)
-                 .add_minutes(movie.run_time)
-    end
-
-    def remove_spaces(str)
-        str.gsub(/, /, ",")
-    end
-
-    def run_time_to_min(run_time)
-        (hours, minutes) = run_time.split(":").map(&:to_i)
-
-        hours * 60 + minutes
-    end
+if __FILE__ == $PROGRAM_NAME
+    scheduler = MovieScheduler.new
+    file = ARGV[0]
+    f = File.read(file)
+    scheduler.parse_movies(f)
+    scheduler.print_schedule(Time.now)
 end
