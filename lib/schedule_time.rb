@@ -27,6 +27,10 @@ class ScheduleTime
         hour * 60 + minute
     end
 
+    def ==(other)
+        hour == other.hour && minute == other.minute
+    end
+    
     private
 
     def time_from_min(minutes)
