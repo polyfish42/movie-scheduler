@@ -19,4 +19,4 @@ A **Movie** instance represents all the data for each movie, and is responsible 
 
 A **Theater** instance represents the schedule, turnover time, and setup time for each theater.
 
-A **Schedule** instance handles creating an optimized schedule for each movie.
+A **MovieScheduler** instance handles creating an optimized schedule for each movie, and input and output.
