@@ -1,4 +1,5 @@
 class ScheduleTime
+    include Comparable
     attr_reader :hour, :minute
 
     def initialize(hour, minute)
@@ -29,6 +30,10 @@ class ScheduleTime
 
     def ==(other)
         hour == other.hour && minute == other.minute
+    end
+
+    def <=>(other)
+        self.to_minutes <=> other.to_minutes
     end
     
     private

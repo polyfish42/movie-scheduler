@@ -1,9 +1,10 @@
 require 'rspec'
 require 'movie_scheduler'
+require 'movie'
 
 describe MovieScheduler do
     subject(:scheduler) { MovieScheduler.new }
-    let(:movie) { double("Movie") }
+    let(:movie) { Movie.new("There's Something About Mary", 1998, "R", 134) }
 
     describe '#parse_movies' do
         let(:str) { <<~FILE
@@ -13,11 +14,35 @@ describe MovieScheduler do
         }
 
         it 'should create an array of movie objects from a str' do
-            movies = MovieScheduler.parse_movies(str)
+            movies = scheduler.parse_movies(str)
             expect(movies[0].title).to eq("There's Something About Mary")
             expect(movies[0].release_year).to eq(1998)
             expect(movies[0].mpaa_rating).to eq("R")
             expect(movies[0].run_time).to eq(134)
+        end
+    end
+
+    describe "#calculate_movie_schedule" do
+        let(:str) { <<~FILE
+            Movie Title, Release Year, MPAA Rating, Run Time
+            There's Something About Mary, 1998, R, 2:14
+        FILE
+}
+
+        it "determines the optimal movie schedule" do
+            scheduler.parse_movies(str)
+            expect(scheduler.schedule(Time.new(2018,7,23,0,0,0,"-05:00"))).to eq (
+                <<~SCHEDULE
+                Monday 7/23/2018
+
+                There's Something About Mary - Rated R, 2:14
+                    09:25 - 11:39
+                    12:15 - 14:29
+                    15:05 - 17:19
+                    17:55 - 20:09
+                    20:45 - 22:59
+                SCHEDULE
+            )
         end
     end
 end

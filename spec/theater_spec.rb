@@ -13,7 +13,7 @@ describe Theater do
 
     describe "#closing_time" do
         it "returns the closing time for the theater" do
-            expect(theater.closed_time(7)).to eq ScheduleTime.new(23,30)
+            expect(theater.closed_time(0)).to eq ScheduleTime.new(23,30)
         end
     end
 end
