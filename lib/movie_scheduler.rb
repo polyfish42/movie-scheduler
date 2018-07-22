@@ -64,7 +64,7 @@ class MovieScheduler
         time = @theater.closed_time(date.wday)
         schedule = []
     
-        while time > first_possible_end_time(movie, date)
+        while time >= first_possible_end_time(movie, date)
             (start_time, end_time) = movie.start_and_end_time(time)
 
             schedule << {start: start_time, end: end_time}

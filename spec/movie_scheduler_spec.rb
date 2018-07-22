@@ -5,14 +5,13 @@ require './lib/movie_scheduler/movie'
 describe MovieScheduler do
     subject(:scheduler) { MovieScheduler.new }
     let(:movie) { Movie.new("There's Something About Mary", 1998, "R", 134) }
+    let(:str) { <<~FILE
+        Movie Title, Release Year, MPAA Rating, Run Time
+        There's Something About Mary, 1998, R, 2:14
+    FILE
+}
 
     describe '#parse_movies' do
-        let(:str) { <<~FILE
-                        Movie Title, Release Year, MPAA Rating, Run Time
-                        There's Something About Mary, 1998, R, 2:14
-                    FILE
-        }
-
         it 'should create an array of movie objects from a str' do
             movies = scheduler.parse_movies(str)
             expect(movies[0].title).to eq("There's Something About Mary")
@@ -23,12 +22,6 @@ describe MovieScheduler do
     end
 
     describe "#calculate_movie_schedule" do
-        let(:str) { <<~FILE
-            Movie Title, Release Year, MPAA Rating, Run Time
-            There's Something About Mary, 1998, R, 2:14
-        FILE
-}
-
         it "determines the optimal movie schedule" do
             scheduler.parse_movies(str)
             expect(scheduler.print_schedule(Time.new(2018,7,23,0,0,0,"-05:00"))).to eq (
