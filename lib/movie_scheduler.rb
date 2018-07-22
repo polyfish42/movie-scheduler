@@ -33,7 +33,7 @@ class MovieScheduler
             schedule.each do |movie_time|
                 arr << "    #{movie_time[:start]} - #{movie_time[:end]}\n"
             end
-            str += arr.reverse.join("")
+            str += arr.reverse.join("") + "\n"
         end
         str
     end

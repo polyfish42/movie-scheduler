@@ -41,6 +41,7 @@ describe MovieScheduler do
                     15:05 - 17:19
                     17:55 - 20:09
                     20:45 - 22:59
+
                 SCHEDULE
             )
         end
