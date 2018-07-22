@@ -1,6 +1,5 @@
 require 'rspec'
-require 'schedule_time'
-require 'byebug'
+require './lib/movie_scheduler/schedule_time'
 
 describe ScheduleTime do
     subject(:time) { ScheduleTime.new(10,45)}

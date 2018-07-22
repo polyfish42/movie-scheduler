@@ -1,6 +1,6 @@
-require_relative './theater.rb'
-require_relative './movie.rb'
-require_relative './schedule_time.rb'
+require_relative './movie_scheduler/theater.rb'
+require_relative './movie_scheduler/movie.rb'
+require_relative './movie_scheduler/schedule_time.rb'
 require 'csv'
 
 class MovieScheduler

@@ -1,6 +1,6 @@
 require 'rspec'
-require 'theater'
-require 'schedule_time'
+require './lib/movie_scheduler/theater'
+require './lib/movie_scheduler/schedule_time'
 
 describe Theater do
     subject(:theater) { Theater.new }

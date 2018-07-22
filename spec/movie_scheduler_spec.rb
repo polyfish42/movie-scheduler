@@ -1,6 +1,6 @@
 require 'rspec'
-require 'movie_scheduler'
-require 'movie'
+require './lib/movie_scheduler'
+require './lib/movie_scheduler/movie'
 
 describe MovieScheduler do
     subject(:scheduler) { MovieScheduler.new }

@@ -1,6 +1,6 @@
 require 'rspec'
-require 'movie.rb'
-require 'schedule_time'
+require './lib/movie_scheduler/movie.rb'
+require './lib/movie_scheduler/schedule_time'
 
 describe Movie do
     subject(:movie) { Movie.new("There's Something About Mary", 1998, "R", 134)}
